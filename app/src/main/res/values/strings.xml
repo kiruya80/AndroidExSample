@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AndroidExSample</string>
+    <string name="title_home">Home</string>
+    <string name="title_permission">Permission</string>
+    <string name="title_storage">Storage</string>
+    <string name="title_notifications">Notifications</string>
+
+
+    <string-array name="req_permission">
+        <item>사진/미디어/저장공간</item>
+        <item>마이크</item>
+        <item>기기 및 앱 기록</item>
+        <item>다른 앱 위에 그리기</item>
+        <item>사용 정보 접근 및 접근성</item>
+        <item>알림</item>
+    </string-array>
+</resources>

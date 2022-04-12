@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ulling.lib.core">
+
+    <application
+        android:supportsRtl="true">
+
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.1.0"
+            tools:replace="android:value" />
+
+        <activity
+            android:name="com.ulling.lib.core.sample.JodaSampleActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/QappTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
