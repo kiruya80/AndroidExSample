@@ -42,31 +42,8 @@ class StorageFragment : BaseFragment(R.layout.fragment_storage) {
         btn_permission_read_write.setOnHasTermClickListener {
             QcLog.e("btn_permission_read_write === " )
             if (!PermissionUtils.isReadWritePermission(mCtx, permissionListRW)) {
-//                if (!isAllPermissionGranted(permissionListAfterR)) {
-                requestReadWritePermission()
+                PermissionUtils.requestReadWritePermission(mCtx, startForResultReadWrite, permissionMultiLauncher)
             }
-        }
-    }
-
-
-
-    private fun requestReadWritePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            try {
-                startForResultReadWrite.launch(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                    addCategory("android.intent.category.DEFAULT")
-                    data = Uri.parse(String.format("package:%s", mCtx.packageName))
-                })
-            } catch (e: Exception) {
-                startForResultReadWrite.launch(
-                    Intent().apply {
-                        action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                    },
-                )
-            }
-        } else {
-            //below android 11
-            permissionMultiLauncher.launch(permissionListRW);
         }
     }
 
@@ -101,27 +78,34 @@ class StorageFragment : BaseFragment(R.layout.fragment_storage) {
     val permissionMultiLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { map ->
-        QcLog.e("RequestMultiplePermissions ===  " + map.toString())
-
         if (!map.isNullOrEmpty()) {
-            var isMoveSetting = false
-            for (entry in map.entries) {
-                // android.permission.READ_EXTERNAL_STORAGE = true
-                QcLog.e("${entry.key} = ${entry.value}")
+            val  permissionShowList: ArrayList<String> =  ArrayList<String>()
 
-                // shouldShowRequestPermissionRationale
-                // 사용자가 권한 요청을 명시적으로 거부한 경우 true를 반환한다.
-                // 사용자가 권한 요청을 처음 보거나, 다시 묻지 않음 선택한 경우, 권한을 허용한 경우 false를 반환한다.
-                if (shouldShowRequestPermissionRationale(entry.key)) {
-                    QcLog.e("거부 한 번 했을경우 재요청 가능 : " + entry.key)
+            for (entry in map.entries) {
+                QcLog.e(" ======= ${entry.key} = ${entry.value}     "
+                        + " , isGranted : " + PermissionUtils.isCheckSelfPermission(mCtx, entry.key)
+                        + " , 권한 요청 : " + shouldShowRequestPermissionRationale(entry.key))
+
+                if (PermissionUtils.isCheckSelfPermission(mCtx, entry.key)) {
+                    QcLog.e("허용된 권한 ${entry.key} ${entry.value}")
+
                 } else {
-                    QcLog.e("거부 두 번 했을경우 설정 화면으로 보내기 : " + entry.key)
-                    isMoveSetting = true
-                    break
+                    if (shouldShowRequestPermissionRationale(entry.key)) {
+                        // 이전 요청에 거부한 경우
+                        // 사용자가 권한 요청을 명시적으로 거부한 경우 true를 반환한다.
+                        QcLog.e("최초 거부 클릭시 : " + entry.key)
+                    } else {
+                        // 팝업 배경 선택 취소시
+                        // 사용자가 권한 요청을 처음 보거나, 다시 묻지 않음 선택한 경우, 권한을 허용한 경우 false를 반환한다.
+                        QcLog.e("이전 요청에 거부한 경우, 설정화면 보내기 팝업 노출 : " + entry.key)
+                        // 권한 버튼 클릭을 해도 반응이 없을 수 있다 이럴때 설정화면으로 보내야한다
+                        permissionShowList.add(entry.key)
+                    }
                 }
+
             }
-            if (isMoveSetting) {
-                showDialogToGetPermission(mCtx, startForResultPermission)
+            if (!permissionShowList.isNullOrEmpty()) {
+                showDialogToGetPermission(mCtx, permissionShowList.toString(), startForResultPermission)
             }
         }
     }

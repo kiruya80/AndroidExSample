@@ -2,11 +2,9 @@ package com.ulling.androidexsample.ui.permission
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ulling.androidexsample.R
@@ -21,7 +19,9 @@ import android.os.Build.VERSION.SDK_INT
 import com.ulling.androidexsample.common.permissionList
 import com.ulling.androidexsample.common.permissionListAfterR
 import com.ulling.androidexsample.common.permissionListRW
-import com.ulling.androidexsample.utils.PermissionUtils.Companion.isAllPermissionGranted
+import com.ulling.androidexsample.utils.PermissionUtils
+import com.ulling.androidexsample.utils.PermissionUtils.Companion.isAllCheckSelfPermission
+import com.ulling.androidexsample.utils.PermissionUtils.Companion.isCheckSelfPermission
 import com.ulling.androidexsample.utils.PermissionUtils.Companion.isReadWritePermission
 import com.ulling.androidexsample.utils.PermissionUtils.Companion.showDialogToGetPermission
 
@@ -53,11 +53,7 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission) {
             QcLog.e("btn_permission_camera === ")
             //단일 권한을 요청하려면 RequestPermission을 사용합니다.
             //여러 권한을 동시에 요청하려면 RequestMultiplePermissions를 사용합니다.
-            if (checkSelfPermission(
-                    mCtx,
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+            if ( isCheckSelfPermission(mCtx, Manifest.permission.CAMERA)){
                 permissionViewModel.text.value = Build.VERSION.SDK + " 카메라 권한 설정 완료"
             } else {
                 // 권한 없는 경우, 권한 요청
@@ -74,7 +70,7 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission) {
                 requestPermissions = permissionListAfterR;
             }
 
-            if (isAllPermissionGranted(mCtx, requestPermissions)) {
+            if (isAllCheckSelfPermission(mCtx, requestPermissions)) {
                 permissionViewModel.text.value = Build.VERSION.SDK + " 권한 설정 완료"
             }
             permissionMultiLauncher.launch(requestPermissions);
@@ -83,33 +79,11 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission) {
         btn_permission_read_write.setOnHasTermClickListener {
             QcLog.e("btn_permission_read_write === ")
             if (!isReadWritePermission(mCtx, permissionListRW)) {
-                requestReadWritePermission()
+                PermissionUtils.requestReadWritePermission(mCtx, startForResultReadWrite, permissionMultiLauncher)
             }
         }
     }
 
-
-
-
-    private fun requestReadWritePermission() {
-        if (SDK_INT >= Build.VERSION_CODES.R) {
-            try {
-                startForResultReadWrite.launch(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                    addCategory("android.intent.category.DEFAULT")
-                    data = Uri.parse(String.format("package:%s", mCtx.packageName))
-                })
-            } catch (e: Exception) {
-                startForResultReadWrite.launch(
-                    Intent().apply {
-                        action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                    },
-                )
-            }
-        } else {
-            //below android 11
-            permissionMultiLauncher.launch(permissionListRW);
-        }
-    }
 
     val startForResultPermission =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -138,40 +112,18 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission) {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         QcLog.e("RequestPermission === $isGranted ")
+        var permission = Manifest.permission.CAMERA
+
         if (isGranted) {
             permissionViewModel.text.value = Build.VERSION.SDK + "권한 설정 완료"
         } else {
+            QcLog.e(" ======= Manifest.permission.CAMERA " + shouldShowRequestPermissionRationale(permission))
             // shouldShowRequestPermissionRationale
-            // 사용자가 권한 요청을 명시적으로 거부한 경우 true를 반환한다.
-            // 사용자가 권한 요청을 처음 보거나, 다시 묻지 않음 선택한 경우, 권한을 허용한 경우 false를 반환한다.
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                QcLog.e("거부 한 번 했을경우 재요청 가능")
+            if (shouldShowRequestPermissionRationale(permission)) {
+                QcLog.e("최초 거부 클릭시 : " + permission)
             } else {
-                QcLog.e("거부 두 번 했을경우 설정 화면으로 보내기")
-                showDialogToGetPermission(mCtx, startForResultPermission)
+                showDialogToGetPermission(mCtx, permission, startForResultPermission)
             }
-//                when {
-//                    ContextCompat.checkSelfPermission(
-//                        CONTEXT,
-//                        Manifest.permission.REQUESTED_PERMISSION
-//                    ) == PackageManager.PERMISSION_GRANTED -> {
-//                        // You can use the API that requires the permission.
-//                    }
-//                    shouldShowRequestPermissionRationale(...) -> {
-//                    // In an educational UI, explain to the user why your app requires this
-//                    // permission for a specific feature to behave as expected. In this UI,
-//                    // include a "cancel" or "no thanks" button that allows the user to
-//                    // continue using your app without granting the permission.
-//                    showInContextUI(...)
-//                }
-//                    else -> {
-//                        // You can directly ask for the permission.
-//                        // The registered ActivityResultCallback gets the result of this request.
-//                        requestPermissionLauncher.launch(
-//                            Manifest.permission.REQUESTED_PERMISSION)
-//                    }
-//                }
-
         }
     }
 
@@ -185,27 +137,34 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission) {
     val permissionMultiLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { map ->
-        QcLog.e("RequestMultiplePermissions ===  " + map.toString())
-
         if (!map.isNullOrEmpty()) {
-            var isMoveSetting = false
-            for (entry in map.entries) {
-                // android.permission.READ_EXTERNAL_STORAGE = true
-                QcLog.e("${entry.key} = ${entry.value}")
+            val  permissionShowList: ArrayList<String> =  ArrayList<String>()
 
-                // shouldShowRequestPermissionRationale
-                // 사용자가 권한 요청을 명시적으로 거부한 경우 true를 반환한다.
-                // 사용자가 권한 요청을 처음 보거나, 다시 묻지 않음 선택한 경우, 권한을 허용한 경우 false를 반환한다.
-                if (shouldShowRequestPermissionRationale(entry.key)) {
-                    QcLog.e("거부 한 번 했을경우 재요청 가능 : " + entry.key)
+            for (entry in map.entries) {
+                QcLog.e(" ======= ${entry.key} = ${entry.value}     "
+                        + " , isGranted : " + isCheckSelfPermission(mCtx, entry.key)
+                        + " , 권한 요청 : " + shouldShowRequestPermissionRationale(entry.key))
+
+                if (isCheckSelfPermission(mCtx, entry.key)) {
+                    QcLog.e("허용된 권한 ${entry.key} ${entry.value}")
+
                 } else {
-                    QcLog.e("거부 두 번 했을경우 설정 화면으로 보내기 : " + entry.key)
-                    isMoveSetting = true
-                    break
+                    if (shouldShowRequestPermissionRationale(entry.key)) {
+                        // 이전 요청에 거부한 경우
+                        // 사용자가 권한 요청을 명시적으로 거부한 경우 true를 반환한다.
+                        QcLog.e("최초 거부 클릭시 : " + entry.key)
+                    } else {
+                        // 팝업 배경 선택 취소시
+                        // 사용자가 권한 요청을 처음 보거나, 다시 묻지 않음 선택한 경우, 권한을 허용한 경우 false를 반환한다.
+                        QcLog.e("이전 요청에 거부한 경우, 설정화면 보내기 팝업 노출 : " + entry.key)
+                        // 권한 버튼 클릭을 해도 반응이 없을 수 있다 이럴때 설정화면으로 보내야한다
+                        permissionShowList.add(entry.key)
+                    }
                 }
+
             }
-            if (isMoveSetting) {
-                showDialogToGetPermission(mCtx, startForResultPermission)
+            if (!permissionShowList.isNullOrEmpty()) {
+                showDialogToGetPermission(mCtx, permissionShowList.toString(), startForResultPermission)
             }
         }
     }

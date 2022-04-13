@@ -3,8 +3,6 @@ package com.ulling.androidexsample.ui.home
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,7 +51,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             QcLog.e("registerForActivityResult == " + result.toString())
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
-                var data = intent?.getStringExtra("ResultData")
+                val data = intent?.getStringExtra("ResultData")
                 QcLog.e("registerForActivityResult == " + data.toString())
 
                 homeViewModel.text.value = "registerForActivityResult : " + data.toString()
