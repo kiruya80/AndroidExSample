@@ -18,10 +18,16 @@
         tools:layout="@layout/fragment_permission" />
 
     <fragment
-        android:id="@+id/navigation_storage"
-        android:name="com.ulling.androidexsample.ui.storage.StorageFragment"
+        android:id="@+id/navigation_storage_inter"
+        android:name="com.ulling.androidexsample.ui.storage.inter.StorageInterFragment"
         android:label="@string/title_storage"
-        tools:layout="@layout/fragment_storage" />
+        tools:layout="@layout/fragment_storage_inter" />
+
+    <fragment
+        android:id="@+id/navigation_storage_exter"
+        android:name="com.ulling.androidexsample.ui.storage.exter.StorageExterFragment"
+        android:label="@string/title_storage"
+        tools:layout="@layout/fragment_storage_exter" />
 
     <fragment
         android:id="@+id/navigation_notifications"

@@ -18,7 +18,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_permission,
-                R.id.navigation_storage,
+                R.id.navigation_storage_inter,
+                R.id.navigation_storage_exter,
                 R.id.navigation_notifications
             )
         )

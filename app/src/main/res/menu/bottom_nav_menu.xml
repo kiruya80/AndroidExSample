@@ -12,9 +12,14 @@
         android:title="@string/title_permission" />
 
     <item
-        android:id="@+id/navigation_storage"
+        android:id="@+id/navigation_storage_inter"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_storage" />
+        android:title="@string/title_storage_inter" />
+
+    <item
+        android:id="@+id/navigation_storage_exter"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/title_storage_exter" />
 
     <item
         android:id="@+id/navigation_notifications"
