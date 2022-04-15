@@ -12,6 +12,7 @@ import com.ulling.androidexsample.R
 import com.ulling.androidexsample.base.BaseFragment
 import com.ulling.androidexsample.common.permissionListRW
 import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListener
+import com.ulling.androidexsample.ui.permission.PermissionLifecycleObserver
 import com.ulling.androidexsample.utils.PermissionUtils
 import com.ulling.androidexsample.utils.PermissionUtils.Companion.showDialogToGetPermission
 import com.ulling.lib.core.utils.QcLog
@@ -21,28 +22,37 @@ import kotlinx.android.synthetic.main.fragment_storage.btn_permission_read_write
 class StorageFragment : BaseFragment(R.layout.fragment_storage) {
 
     private lateinit var storageViewModel: StorageViewModel
-
-    override fun onBackPressed() {
-    }
-
-    override fun onBackStackChanged() {
-    }
-
+    lateinit var observer: StorageLifecycleObserver
 
     override fun init() {
         QcLog.e("init ======== ")
 
         storageViewModel =
             ViewModelProvider(this).get(StorageViewModel::class.java)
+
+
+        observer = StorageLifecycleObserver(
+            requireActivity(),
+            storageViewModel
+        )
+        lifecycle.addObserver(observer)
+    }
+
+    override fun initView() {
+        QcLog.e("initView ======== ")
         storageViewModel.text.observe(viewLifecycleOwner, Observer {
             text_storage.text = it
         })
         text_storage.text = "text_storage"
 
         btn_permission_read_write.setOnHasTermClickListener {
-            QcLog.e("btn_permission_read_write === " )
+            QcLog.e("btn_permission_read_write === ")
             if (!PermissionUtils.isReadWritePermission(mCtx, permissionListRW)) {
-                PermissionUtils.requestReadWritePermission(mCtx, startForResultReadWrite, permissionMultiLauncher)
+                PermissionUtils.requestReadWritePermission(
+                    mCtx,
+                    startForResultReadWrite,
+                    permissionMultiLauncher
+                )
             }
         }
     }
@@ -79,12 +89,17 @@ class StorageFragment : BaseFragment(R.layout.fragment_storage) {
         ActivityResultContracts.RequestMultiplePermissions()
     ) { map ->
         if (!map.isNullOrEmpty()) {
-            val  permissionShowList: ArrayList<String> =  ArrayList<String>()
+            val permissionShowList: ArrayList<String> = ArrayList<String>()
 
             for (entry in map.entries) {
-                QcLog.e(" ======= ${entry.key} = ${entry.value}     "
-                        + " , isGranted : " + PermissionUtils.isCheckSelfPermission(mCtx, entry.key)
-                        + " , 권한 요청 : " + shouldShowRequestPermissionRationale(entry.key))
+                QcLog.e(
+                    " ======= ${entry.key} = ${entry.value}     "
+                            + " , isGranted : " + PermissionUtils.isCheckSelfPermission(
+                        mCtx,
+                        entry.key
+                    )
+                            + " , 권한 요청 : " + shouldShowRequestPermissionRationale(entry.key)
+                )
 
                 if (PermissionUtils.isCheckSelfPermission(mCtx, entry.key)) {
                     QcLog.e("허용된 권한 ${entry.key} ${entry.value}")
@@ -105,7 +120,11 @@ class StorageFragment : BaseFragment(R.layout.fragment_storage) {
 
             }
             if (!permissionShowList.isNullOrEmpty()) {
-                showDialogToGetPermission(mCtx, permissionShowList.toString(), startForResultPermission)
+                showDialogToGetPermission(
+                    mCtx,
+                    permissionShowList.toString(),
+                    startForResultPermission
+                )
             }
         }
     }

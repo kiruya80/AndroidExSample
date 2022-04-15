@@ -16,15 +16,14 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
         QcLog.e("init ======== ")
         notificationsViewModel =
             ViewModelProvider(this).get(NotificationsViewModel::class.java)
+    }
+
+    override fun initView() {
+        QcLog.e("initView ======== ")
         notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
             text_notifications.text = it
         })
         text_notifications.text = "text_notifications"
     }
 
-    override fun onBackPressed() {
-    }
-
-    override fun onBackStackChanged() {
-    }
 }

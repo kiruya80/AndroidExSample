@@ -7,7 +7,7 @@ import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListene
 import com.ulling.lib.core.utils.QcLog
 import kotlinx.android.synthetic.main.activity_sub.*
 
-class SubActivity : BaseActivity(R.layout.activity_sub) {
+class MainSubActivity : BaseActivity(R.layout.activity_main_sub) {
 
     override fun init() {
         QcLog.e("init ======== ")
@@ -20,10 +20,15 @@ class SubActivity : BaseActivity(R.layout.activity_sub) {
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
-
     }
 
-//    override fun onBackStackChanged() {
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setResult(Activity.RESULT_CANCELED)
+        finish()
+    }
+
+    //    override fun onBackStackChanged() {
 //        setResult(Activity.RESULT_CANCELED)
 //        finish()
 //    }

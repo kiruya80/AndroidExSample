@@ -26,6 +26,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         nav_view.setupWithNavController(navController)
     }
 
-    override fun onBackStackChanged() {
-    }
+//    override fun onBackStackChanged() {
+//        QcLog.e("onBackStackChanged ======== ")
+//        onBackPressed()
+//    }
 }

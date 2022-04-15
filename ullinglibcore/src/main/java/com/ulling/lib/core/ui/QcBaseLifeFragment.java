@@ -11,6 +11,11 @@ import com.ulling.lib.core.utils.QcLog;
 
 import static android.app.Activity.RESULT_OK;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -197,6 +202,22 @@ public abstract class QcBaseLifeFragment extends Fragment {
             needSubscribeUiFromViewModel();
         }
 
+//        ActivityResultLauncher<Intent> registerForActivityResult = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//
+//                    }
+//                }
+//        );
+
+//        ActivityResultLauncher<Intent> registerForActivityResult = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                result -> {
+//
+//                }
+//        );
     }
 
     /**

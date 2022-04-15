@@ -11,6 +11,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.ulling.androidexsample.common.permissionListRW
+import com.ulling.lib.core.utils.QcDialogUtils
 
 class PermissionUtils {
 
@@ -57,17 +58,17 @@ class PermissionUtils {
          */
         fun requestReadWritePermission(
             mCtx: Context,
-            startForResultReadWrite: ActivityResultLauncher<Intent>,
-            permissionMultiLauncher: ActivityResultLauncher<Array<String>>,
+            actResultStartActivity: ActivityResultLauncher<Intent>,
+            actResultMultiPermissions: ActivityResultLauncher<Array<String>>,
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 try {
-                    startForResultReadWrite.launch(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                    actResultStartActivity.launch(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
                         addCategory("android.intent.category.DEFAULT")
                         data = Uri.parse(String.format("package:%s", mCtx.packageName))
                     })
                 } catch (e: Exception) {
-                    startForResultReadWrite.launch(
+                    actResultStartActivity.launch(
                         Intent().apply {
                             action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
                         },
@@ -75,7 +76,7 @@ class PermissionUtils {
                 }
             } else {
                 //below android 11
-                permissionMultiLauncher.launch(permissionListRW);
+                actResultMultiPermissions.launch(permissionListRW);
             }
         }
 
@@ -99,23 +100,40 @@ class PermissionUtils {
             msg: String,
             startForResultPermission: ActivityResultLauncher<Intent>
         ) {
-            val builder = AlertDialog.Builder(mCtx)
-            builder.setTitle("동의하지 않은 권한이 있습니다. ")
-                .setMessage(msg + "\n\n모든 권한 동의 후 사용가능합니다.")
-
-            builder.setPositiveButton("설정") { dialogInterface, i ->
-                startForResultPermission.launch(
-                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        data = Uri.parse(String.format("package:%s", mCtx.packageName))
-                    },
-                )
+            QcDialogUtils.getInstance().showDefaultDialog(mCtx,
+                "동의하지 않은 권한이 있습니다. ",
+                msg + "\n\n모든 권한 동의 후 사용가능합니다.",
+                false,
+                "설정",
+                "종료"
+            ) {
+                if (it) {
+                    startForResultPermission.launch(
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            data = Uri.parse(String.format("package:%s", mCtx.packageName))
+                        },
+                    )
+                }
             }
-            builder.setNegativeButton("종료") { dialogInterface, i ->
 
-            }
-            val dialog = builder.create()
-            dialog.show()
+//            QcDialogUtils.getInstance().showDefaultDialog(mCtx,
+//                "동의하지 않은 권한이 있습니다. ",
+//                msg + "\n\n모든 권한 동의 후 사용가능합니다.",
+//                false,
+//                "설정",
+//                "종료",
+//                QcDialogUtils.DialogListener {
+//                    if(it) {
+//                        startForResultPermission.launch(
+//                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+//                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                data = Uri.parse(String.format("package:%s", mCtx.packageName))
+//                            },
+//                        )
+//                    }
+//                }
+//            )
         }
     }
 }

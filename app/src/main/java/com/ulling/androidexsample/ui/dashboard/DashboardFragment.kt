@@ -16,16 +16,14 @@ class DashboardFragment : BaseFragment(R.layout.fragment_dashboard) {
         QcLog.e("init ======== ")
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
+    }
+
+    override fun initView() {
+        QcLog.e("initView ======== ")
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             text_dashboard.text = it
         })
         text_dashboard.text = "text_dashboard"
 
-    }
-
-    override fun onBackPressed() {
-    }
-
-    override fun onBackStackChanged() {
     }
 }

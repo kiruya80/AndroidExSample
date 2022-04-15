@@ -2,6 +2,7 @@ package com.ulling.lib.core.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
@@ -28,8 +29,8 @@ public class QcDialogUtils {
     public QcDialogUtils() {
     }
     
-    public ProgressDialog showProgressDialog(Activity activity, String msg) {
-        ProgressDialog asyncDialog = new ProgressDialog(activity);
+    public ProgressDialog showProgressDialog(Context mCtx, String msg) {
+        ProgressDialog asyncDialog = new ProgressDialog(mCtx);
         asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         asyncDialog.setMessage(msg);
         asyncDialog.setCancelable(false);
@@ -41,14 +42,14 @@ public class QcDialogUtils {
         void onClickListener(Boolean positive);
     }
     
-    public void showDefaultDialog(Activity activity,
+    public void showDefaultDialog(Context mCtx,
                                   String title,
                                   String msg,
                                   boolean isOneBtn,
                                   String msgPositive,
                                   String msgNegative,
                                   final DialogListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mCtx);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setPositiveButton(msgPositive,
