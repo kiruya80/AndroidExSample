@@ -1,4 +1,4 @@
-package com.ulling.androidexsample.ui.storage.inter
+package com.ulling.androidexsample.ui.storage.share
 
 import android.content.Context
 import android.os.Build
@@ -9,20 +9,20 @@ import com.ulling.androidexsample.R
 import com.ulling.androidexsample.base.BaseFragment
 import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListener
 import com.ulling.lib.core.utils.QcLog
-import kotlinx.android.synthetic.main.fragment_storage_inter.*
+import kotlinx.android.synthetic.main.fragment_storage_share.*
 import java.io.File
 import kotlin.random.Random
 
 /**
- * 내부 저장소
+ * 공유 저장소
  *
- * https://developer.android.com/training/data-storage/app-specific?hl=ko
+ *  https://developer.android.com/training/data-storage/shared/media?hl=ko
  *
  */
-class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
+class StorageShareFragment : BaseFragment(R.layout.fragment_storage_share) {
 
-    private lateinit var storageViewModel: StorageInterViewModel
-    lateinit var observerInter: StorageInterLifecycleObserver
+    private lateinit var storageViewModel: StorageShareViewModel
+    lateinit var observerInter: StorageShareLifecycleObserver
 
     var fileDir = "sampleDir"
     var fileName = "myfile"
@@ -32,9 +32,9 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
         QcLog.e("init ======== ")
 
         storageViewModel =
-            ViewModelProvider(this).get(StorageInterViewModel::class.java)
+            ViewModelProvider(this).get(StorageShareViewModel::class.java)
 
-        observerInter = StorageInterLifecycleObserver(
+        observerInter = StorageShareLifecycleObserver(
             requireActivity(),
             storageViewModel
         )
@@ -49,47 +49,47 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
         })
         text_title.text = "내부 저장소 테스트"
 
-        btn_in_makeFile.setOnHasTermClickListener {
-            QcLog.e("btn_in_makeFile === ")
-            fileName = edt_in_makeFile.text.toString() + Random.nextInt(1000).toString()
+        btn_share_makeFile.setOnHasTermClickListener {
+            QcLog.e("btn_share_makeFile === ")
+            fileName = edt_share_makeFile.text.toString() + Random.nextInt(1000).toString()
             if (fileName.isNullOrEmpty())
                 fileName = "testFile_" + Random.nextInt(1000).toString()
             makeFile(fileName)
         }
-        btn_in_makeFolder.setOnHasTermClickListener {
-            QcLog.e("btn_in_makeFolder === ")
-            fileDir = edt_in_makeFile.text.toString() + Random.nextInt(1000).toString()
+        btn_share_makeFolder.setOnHasTermClickListener {
+            QcLog.e("btn_share_makeFolder === ")
+            fileDir = edt_share_makeFile.text.toString() + Random.nextInt(1000).toString()
             if (fileDir.isNullOrEmpty())
                 fileDir = "testFolder_" + Random.nextInt(1000).toString()
             createInnerDir(fileDir)
         }
 
 
-        btn_in_saveFile.setOnHasTermClickListener {
-            QcLog.e("btn_in_saveFile === ")
-            fileContents = fileName +"\n" +edt_in_saveFile.text.toString()
+        btn_share_saveFile.setOnHasTermClickListener {
+            QcLog.e("btn_share_saveFile === ")
+            fileContents = fileName +"\n" +edt_share_saveFile.text.toString()
             saveFile(fileName, fileContents)
         }
 
-        btn_in_getFile.setOnHasTermClickListener {
-            QcLog.e("btn_in_getFile === ")
+        btn_share_getFile.setOnHasTermClickListener {
+            QcLog.e("btn_share_getFile === ")
             getFile(fileName)
         }
 
-        btn_in_deleteFile.setOnHasTermClickListener {
-            QcLog.e("btn_in_deleteFile === ")
+        btn_share_deleteFile.setOnHasTermClickListener {
+            QcLog.e("btn_share_deleteFile === ")
             getDeleteFile(fileName)
         }
 
 
 
-        btn_in_getFileList.setOnHasTermClickListener {
-            QcLog.e("btn_in_getFileList === ")
+        btn_share_getFileList.setOnHasTermClickListener {
+            QcLog.e("btn_share_getFileList === ")
             getFileList()
         }
 
-        btn_in_deleteFileList.setOnHasTermClickListener {
-            QcLog.e("btn_in_deleteFileList === ")
+        btn_share_deleteFileList.setOnHasTermClickListener {
+            QcLog.e("btn_share_deleteFileList === ")
             getDeleteFileList()
         }
     }
@@ -107,7 +107,7 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
     private fun makeFile(fileName: String) {
         val file = File(mCtx.filesDir, fileName)
         QcLog.e("file ===== " + file.toString())
-        text_in_makeFile.text = file.toString()
+        text_share_makeFile.text = file.toString()
     }
 
     private fun saveFile(fileName :String, contents:String) {
@@ -122,7 +122,7 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
         QcLog.e("getFile === $fileName ")
         val file = File(mCtx.filesDir, fileName)
         if (!file.exists()) {
-            text_in_getFile.text = "파일이 없음"
+            text_share_getFile.text = "파일이 없음"
             return
         }
 
@@ -131,7 +131,7 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
                 "$some\n$text"
             }
             QcLog.e("contentText ====== $contentText")
-            text_in_getFile.text = contentText
+            text_share_getFile.text = contentText
         }
 
 //        QcLog.e("라인별 가져오기 ======")
@@ -160,7 +160,7 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
             lineList.add(item)
             QcLog.e("file ===== " + item.toString())
         }
-        text_in_getFileList.text = lineList.toString()
+        text_share_getFileList.text = lineList.toString()
     }
 
 
@@ -172,7 +172,7 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
             val deleteResult = getDeleteFile(item)
             result = deleteResult == true && result == true
         }
-        text_in_deleteFileList.text = "앱 내부 파일 삭제 성공 $result"
+        text_share_deleteFileList.text = "앱 내부 파일 삭제 성공 $result"
     }
 
     private fun getDeleteFile(fileName: String): Boolean {

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class StorageExterViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is storage Fragment"
+        value = "외부 저장소 테스트"
     }
     val text: LiveData<String> = _text
 

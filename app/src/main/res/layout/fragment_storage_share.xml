@@ -24,18 +24,12 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             tools:text="test" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_permission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:text="읽기 쓰기 권한" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -48,7 +42,6 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -56,7 +49,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edt_ext_makeFile"
+                    android:id="@+id/edt_share_makeFile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -67,7 +60,7 @@
                     app:layout_constraintTop_toBottomOf="@id/text_sub" />
 
                 <TextView
-                    android:id="@+id/text_ext_makeFile"
+                    android:id="@+id/text_share_makeFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -75,14 +68,14 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_makeFile"
+                    android:id="@+id/btn_share_makeFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="make File" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_makeFolder"
+                    android:id="@+id/btn_share_makeFolder"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -93,12 +86,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@color/color_black_trance_20"
                 android:gravity="center"
+                android:background="@color/color_black_trance_20"
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edt_ext_saveFile"
+                    android:id="@+id/edt_share_saveFile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -109,7 +102,7 @@
                     app:layout_constraintTop_toBottomOf="@id/text_sub" />
 
                 <TextView
-                    android:id="@+id/text_ext_saveFile"
+                    android:id="@+id/text_share_saveFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -117,7 +110,7 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_saveFile"
+                    android:id="@+id/btn_share_saveFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -132,7 +125,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_ext_getFile"
+                    android:id="@+id/text_share_getFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -140,7 +133,7 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_getFile"
+                    android:id="@+id/btn_share_getFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -155,7 +148,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_ext_deleteFile"
+                    android:id="@+id/text_share_deleteFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -163,7 +156,7 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_deleteFile"
+                    android:id="@+id/btn_share_deleteFile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -177,7 +170,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_ext_getFileList"
+                    android:id="@+id/text_share_getFileList"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -185,7 +178,7 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_getFileList"
+                    android:id="@+id/btn_share_getFileList"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -200,7 +193,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_ext_deleteFileList"
+                    android:id="@+id/text_share_deleteFileList"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -208,7 +201,7 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_deleteFileList"
+                    android:id="@+id/btn_share_deleteFileList"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
