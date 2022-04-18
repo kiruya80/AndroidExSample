@@ -7,6 +7,37 @@ import com.ulling.lib.core.utils.QcLog
 import java.io.File
 
 // https://developer.android.com/training/data-storage/shared/media?hl=ko
+/**
+ *
+ *
+ * 이미지: 사진과 스크린샷을 포함하며, DCIM/ 및 Pictures/ 디렉터리에 저장됩니다. 시스템은 이러한 파일을 MediaStore.Images 테이블에 추가합니다.
+ *
+ * 동영상: DCIM/, Movies/, Pictures/ 디렉터리에 저장됩니다. 시스템은 이러한 파일을 MediaStore.Video 테이블에 추가합니다.
+ *
+ * 오디오 파일: Alarms/, Audiobooks/, Music/, Notifications/, Podcasts/, Ringtones/ 디렉터리에 저장됩니다. 또한 시스템은 Music/ 또는 Movies/ 디렉터리에 있는 오디오 재생목록과 Recordings/ 디렉터리에 있는 음성 녹음 파일을 인식합니다.
+ * 시스템은 이러한 파일을 MediaStore.Audio 테이블에 추가합니다. 이 녹음 파일 디렉터리는 Android 11(API 수준 30) 이하에서는 사용할 수 없습니다.
+ *
+ * 다운로드한 파일: Download/ 디렉터리에 저장됩니다. Android 10(API 수준 29) 이상을 실행하는 기기에서는 이러한 파일이 MediaStore.Downloads 테이블에 저장됩니다. Android 9(API 수준 28) 이하에서는 이 테이블을 사용할 수 없습니다.
+ *
+ * val projection = arrayOf(media-database-columns-to-retrieve)
+val selection = sql-where-clause-with-placeholder-variables
+val selectionArgs = values-of-placeholder-variables
+val sortOrder = sql-order-by-clause
+
+applicationContext.contentResolver.query(
+MediaStore.media-type.Media.EXTERNAL_CONTENT_URI,
+projection,
+selection,
+selectionArgs,
+sortOrder
+)?.use { cursor ->
+while (cursor.moveToNext()) {
+// Use an ID column from the projection to get
+// a URI representing the media item itself.
+}
+}
+
+ */
 class ShareStorageUtils (val mCtx: Context){
 
 //    private lateinit var mCtx: Context

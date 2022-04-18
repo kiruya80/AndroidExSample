@@ -15,7 +15,7 @@ import java.io.File
 import kotlin.random.Random
 
 /**
- * 외부 저장소
+ * 외부 앱 저장소
  *
  * https://developer.android.com/training/data-storage/app-specific?hl=ko
  *

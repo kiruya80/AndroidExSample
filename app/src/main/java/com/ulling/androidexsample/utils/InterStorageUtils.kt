@@ -1,7 +1,13 @@
 package com.ulling.androidexsample.utils
 
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.storage.StorageManager
+import androidx.annotation.RequiresApi
+import androidx.core.content.getSystemService
 import java.io.File
+import java.util.*
 
 class InterStorageUtils {
 
@@ -68,5 +74,31 @@ class InterStorageUtils {
         cacheFile.delete()
         // case 2
         mCtx.deleteFile(cacheFile.name)
+    }
+
+
+    /**
+     * 여유 공간 쿼리
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getAllocatableBytes(filesDir : File) {
+
+        // App needs 10 MB within internal storage.
+        val NUM_BYTES_NEEDED_FOR_MY_APP = 1024 * 1024 * 10L;
+
+        val storageManager = mCtx.getSystemService<StorageManager>()!!
+        val appSpecificInternalDirUuid: UUID = storageManager.getUuidForPath(filesDir)
+        val availableBytes: Long =
+            storageManager.getAllocatableBytes(appSpecificInternalDirUuid)
+        if (availableBytes >= NUM_BYTES_NEEDED_FOR_MY_APP) {
+            storageManager.allocateBytes(
+                appSpecificInternalDirUuid, NUM_BYTES_NEEDED_FOR_MY_APP)
+        } else {
+            val storageIntent = Intent().apply {
+                // To request that the user remove all app cache files instead, set
+                // "action" to ACTION_CLEAR_APP_CACHE.
+                action = StorageManager.ACTION_MANAGE_STORAGE
+            }
+        }
     }
 }
