@@ -30,8 +30,14 @@
         tools:layout="@layout/fragment_storage_exter" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.ulling.androidexsample.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_storage_share"
+        android:name="com.ulling.androidexsample.ui.storage.share.StorageShareFragment"
+        android:label="@string/title_storage"
+        tools:layout="@layout/fragment_storage_share" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_notifications"-->
+<!--        android:name="com.ulling.androidexsample.ui.notifications.NotificationsFragment"-->
+<!--        android:label="@string/title_notifications"-->
+<!--        tools:layout="@layout/fragment_notifications" />-->
 </navigation>

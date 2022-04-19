@@ -10,6 +10,11 @@ import java.io.File
 /**
  *
  *
+ * Android OS 11 이상
+ * Media(사진 및 동영상, 음악) : READ_EXTERNAL_STORAGE (다른 앱 접근할때만) / MediaStore(or SAF)  / 앱삭제시 제거안됨
+ * Downloads(기타) : 권한 필요없음 / Storage Access Framework(system's file picker)  / 앱삭제시 제거안됨
+ *
+ *
  * 이미지: 사진과 스크린샷을 포함하며, DCIM/ 및 Pictures/ 디렉터리에 저장됩니다. 시스템은 이러한 파일을 MediaStore.Images 테이블에 추가합니다.
  *
  * 동영상: DCIM/, Movies/, Pictures/ 디렉터리에 저장됩니다. 시스템은 이러한 파일을 MediaStore.Video 테이블에 추가합니다.
@@ -18,6 +23,11 @@ import java.io.File
  * 시스템은 이러한 파일을 MediaStore.Audio 테이블에 추가합니다. 이 녹음 파일 디렉터리는 Android 11(API 수준 30) 이하에서는 사용할 수 없습니다.
  *
  * 다운로드한 파일: Download/ 디렉터리에 저장됩니다. Android 10(API 수준 29) 이상을 실행하는 기기에서는 이러한 파일이 MediaStore.Downloads 테이블에 저장됩니다. Android 9(API 수준 28) 이하에서는 이 테이블을 사용할 수 없습니다.
+ *
+ *
+ *  https://ddangeun.tistory.com/58
+ *  사진, 비디오, 오디오 파일등은 MediaStore를 사용하고, Downloads 파일에 저장되는 documents(txt,pdf)나 기타 파일을 읽고 쓰기 위해 SAF를 사용하면 됩니다.
+ *
  *
  * val projection = arrayOf(media-database-columns-to-retrieve)
 val selection = sql-where-clause-with-placeholder-variables
@@ -38,7 +48,7 @@ while (cursor.moveToNext()) {
 }
 
  */
-class ShareStorageUtils (val mCtx: Context){
+class ShareStorageUtils(val mCtx: Context) {
 
 //    private lateinit var mCtx: Context
 
@@ -104,8 +114,11 @@ class ShareStorageUtils (val mCtx: Context){
     fun getAppSpecificAlbumStorageDir(context: Context, albumName: String): File? {
         // Get the pictures directory that's inside the app-specific directory on
         // external storage.
-        val file = File(context.getExternalFilesDir(
-            Environment.DIRECTORY_PICTURES), albumName)
+        val file = File(
+            context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES
+            ), albumName
+        )
         if (!file?.mkdirs()) {
             QcLog.e("Directory not created")
         }

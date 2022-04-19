@@ -26,7 +26,7 @@
             tools:text="test" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_permission"
+            android:id="@+id/btn_permission_exter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
@@ -48,6 +48,36 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="외부 개별 앱 공간 (OS 11)" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/color_black_trance_20"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_ext_selected"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    tools:text="test" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_ext_selected"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="저장소 선택" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,7 +86,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edt_ext_makeFile"
+                    android:id="@+id/edt_ext_make_file"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -66,28 +96,43 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_sub" />
 
-                <TextView
-                    android:id="@+id/text_ext_makeFile"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_makeFile"
+                    android:id="@+id/btn_ext_make_file"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="make File" />
 
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edt_ext_make_dir"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="폴더이름"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_sub" />
+
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_makeFolder"
+                    android:id="@+id/btn_ext_make_dir"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="make Folder" />
             </LinearLayout>
+
+
 
 
             <LinearLayout
@@ -98,7 +143,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edt_ext_saveFile"
+                    android:id="@+id/edt_ext_save_file"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -108,16 +153,8 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_sub" />
 
-                <TextView
-                    android:id="@+id/text_ext_saveFile"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    tools:text="test" />
-
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_saveFile"
+                    android:id="@+id/btn_ext_save_file"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -132,7 +169,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_ext_getFile"
+                    android:id="@+id/text_ext_get_file"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -140,13 +177,48 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_getFile"
+                    android:id="@+id/btn_ext_get_file"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="get File" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_ext_get_files"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    tools:text="test" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_ext_get_files"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="get Files" />
+            </LinearLayout>
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="외부 공용 공간 MediaStore (OS 11)" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -155,7 +227,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_ext_deleteFile"
+                    android:id="@+id/text_ext_delete_file"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -163,34 +235,13 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_deleteFile"
+                    android:id="@+id/btn_ext_delete_file"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="file delete" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_ext_getFileList"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    tools:text="test" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_getFileList"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="get FileList" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -200,7 +251,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_ext_deleteFileList"
+                    android:id="@+id/text_ext_cache"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -208,11 +259,35 @@
                     tools:text="test" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ext_deleteFileList"
+                    android:id="@+id/btn_ext_cache"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="All File List delete" />
+                    android:text="캐시 파일 만들기" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/color_black_trance_20"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_ext_cache_delete"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    tools:text="test" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_ext_cache_delete"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="캐시 파일 삭제" />
             </LinearLayout>
 
 

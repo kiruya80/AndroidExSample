@@ -36,12 +36,6 @@ abstract class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
         QcLog.e("onResume == ")
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        QcLog.e("onViewCreated == ")
-        initView()
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         QcLog.e("onAttach == ")
@@ -59,6 +53,13 @@ abstract class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
 //        // 프레그먼트에서 onBackPressed() 이벤트에 대해 핸들링하기 위해 등록
 //        requireActivity().onBackPressedDispatcher.addCallback(this, mCallbackBackPressed)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        QcLog.e("onViewCreated == ")
+        initView()
+    }
+
 
 //    override fun onDetach() {
 //        super.onDetach()

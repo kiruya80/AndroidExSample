@@ -1,6 +1,5 @@
 package com.ulling.androidexsample.ui.storage.inter
 
-import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
@@ -8,9 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.ulling.androidexsample.R
 import com.ulling.androidexsample.base.BaseFragment
 import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListener
+import com.ulling.androidexsample.utils.InterStorageUtils
 import com.ulling.lib.core.utils.QcLog
 import kotlinx.android.synthetic.main.fragment_storage_inter.*
-import java.io.File
 import kotlin.random.Random
 
 /**
@@ -47,171 +46,53 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
         storageViewModel.text.observe(viewLifecycleOwner, Observer {
             text_title.text = it
         })
-        text_title.text = "내부 저장소 테스트"
+
+        btn_in_make_dir.setOnHasTermClickListener {
+            QcLog.e("btn_in_make_dir === ")
+            fileDir =
+                "testFolder_" + edt_in_makeFile.text.toString() + Random.nextInt(1000).toString()
+            InterStorageUtils(mCtx).createDir(fileDir)
+        }
 
         btn_in_makeFile.setOnHasTermClickListener {
             QcLog.e("btn_in_makeFile === ")
-            fileName = edt_in_makeFile.text.toString() + Random.nextInt(1000).toString()
-            if (fileName.isNullOrEmpty())
-                fileName = "testFile_" + Random.nextInt(1000).toString()
-            makeFile(fileName)
+            fileName =
+                "testFile_" + edt_in_makeFile.text.toString() + Random.nextInt(1000).toString()
+            InterStorageUtils(mCtx).accessFile(fileName)
         }
-        btn_in_makeFolder.setOnHasTermClickListener {
-            QcLog.e("btn_in_makeFolder === ")
-            fileDir = edt_in_makeFile.text.toString() + Random.nextInt(1000).toString()
-            if (fileDir.isNullOrEmpty())
-                fileDir = "testFolder_" + Random.nextInt(1000).toString()
-            createInnerDir(fileDir)
-        }
-
 
         btn_in_saveFile.setOnHasTermClickListener {
             QcLog.e("btn_in_saveFile === ")
-            fileContents = fileName +"\n" +edt_in_saveFile.text.toString()
-            saveFile(fileName, fileContents)
+            fileContents = fileName + "\n" + edt_in_saveFile.text.toString()
+            InterStorageUtils(mCtx).saveFileUsingStream(fileName, fileContents)
         }
 
-        btn_in_getFile.setOnHasTermClickListener {
-            QcLog.e("btn_in_getFile === ")
-            getFile(fileName)
+        btn_in_get_file.setOnHasTermClickListener {
+            QcLog.e("btn_in_get_file === ")
+            if (InterStorageUtils(mCtx).accessFile(fileName).exists()
+                && InterStorageUtils(mCtx).accessFile(fileName).isFile
+            ) {
+                var content = InterStorageUtils(mCtx).getFileUsingStream(fileName)
+                text_in_get_file.text = content
+            } else {
+                text_in_get_file.text = "파일이 없음"
+            }
         }
 
         btn_in_deleteFile.setOnHasTermClickListener {
             QcLog.e("btn_in_deleteFile === ")
-            getDeleteFile(fileName)
+            InterStorageUtils(mCtx).deleteFile(fileName)
         }
-
-
 
         btn_in_getFileList.setOnHasTermClickListener {
             QcLog.e("btn_in_getFileList === ")
-            getFileList()
+            val lineList = InterStorageUtils(mCtx).getFileList()
+            text_in_getFileList.text = lineList.toString()
         }
 
         btn_in_deleteFileList.setOnHasTermClickListener {
             QcLog.e("btn_in_deleteFileList === ")
-            getDeleteFileList()
+            InterStorageUtils(mCtx).deleteFileList()
         }
-    }
-
-    // 내부 저장소
-
-    /**
-     * 중첩된 디렉터리 만들기
-     */
-    fun createInnerDir(dirname:String) {
-        val result = mCtx.getDir(dirname, Context.MODE_PRIVATE)
-        QcLog.e("createInnerDir ===== " + result)
-    }
-
-    private fun makeFile(fileName: String) {
-        val file = File(mCtx.filesDir, fileName)
-        QcLog.e("file ===== " + file.toString())
-        text_in_makeFile.text = file.toString()
-    }
-
-    private fun saveFile(fileName :String, contents:String) {
-        mCtx.openFileOutput(fileName, Context.MODE_PRIVATE).use {
-//            it?.write(fileContents.toByteArray())
-            it?.write(contents.toByteArray())
-        }
-    }
-
-    // https://blog.naver.com/PostView.nhn?blogId=horajjan&logNo=221568409591&from=search&redirect=Log&widgetTypeCall=true&directAccess=false
-    private fun getFile(fileName: String) {
-        QcLog.e("getFile === $fileName ")
-        val file = File(mCtx.filesDir, fileName)
-        if (!file.exists()) {
-            text_in_getFile.text = "파일이 없음"
-            return
-        }
-
-        mCtx.openFileInput(fileName).bufferedReader().useLines { lines ->
-            var contentText = lines.fold("") { some, text ->
-                "$some\n$text"
-            }
-            QcLog.e("contentText ====== $contentText")
-            text_in_getFile.text = contentText
-        }
-
-//        QcLog.e("라인별 가져오기 ======")
-//        val lineList = mutableListOf<String>()
-//        mCtx.openFileInput(fileName).bufferedReader().useLines { lines ->
-//            lines.forEach {
-//                lineList.add(it)
-//            }
-//            QcLog.e("contentText ====== $lineList")
-//        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getFileList() {
-        val lineList = mutableListOf<String>()
-
-        QcLog.e("file cacheDir ===== " + mCtx.cacheDir.toString())
-        QcLog.e("file codeCacheDir ===== " + mCtx.codeCacheDir.toString())
-        QcLog.e("file dataDir ===== " + mCtx.dataDir.toString())
-        QcLog.e("file filesDir ===== " + mCtx.filesDir.toString())
-        QcLog.e("file noBackupFilesDir ===== " + mCtx.noBackupFilesDir.toString())
-
-
-        val files: Array<String> = mCtx.fileList()
-        for (item in files) {
-            lineList.add(item)
-            QcLog.e("file ===== " + item.toString())
-        }
-        text_in_getFileList.text = lineList.toString()
-    }
-
-
-    private fun getDeleteFileList() {
-        val files: Array<String> = mCtx.fileList()
-        var result = true
-        for (item in files) {
-            QcLog.e("file ===== " + item)
-            val deleteResult = getDeleteFile(item)
-            result = deleteResult == true && result == true
-        }
-        text_in_deleteFileList.text = "앱 내부 파일 삭제 성공 $result"
-    }
-
-    private fun getDeleteFile(fileName: String): Boolean {
-        val file = File(mCtx.filesDir, fileName)
-        if (file.exists()) {
-            val result = file.canonicalFile.delete()
-            return result
-        }
-        return true
-    }
-
-
-
-
-
-
-
-
-
-    // 캐시 파일 만들기
-    fun createCacheFile() {
-        val filename = "temp.jpg"
-        File.createTempFile(filename, null, mCtx.cacheDir)
-    }
-
-    // 캐시 파일 접근하기, 단 캐시 파일의 경우 안드로이드가 임의로 지워버릴 수 있음.
-    fun accessCacheFile(): File {
-        val filename = "temp.jpg"
-        val cacheFile = File(mCtx.cacheDir, filename)
-        return cacheFile
-    }
-
-    // 캐시 파일 제거하기
-    // 안드로이드가 캐시 파일을 제거를 보장하지는 않음. 적절한 처리할 것
-    fun removeCacheFile() {
-        val cacheFile = accessCacheFile()
-        // case 1
-        cacheFile.delete()
-        // case 2
-        mCtx.deleteFile(cacheFile.name)
     }
 }

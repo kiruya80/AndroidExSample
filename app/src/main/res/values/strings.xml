@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">AndroidExSample</string>
+
     <string name="title_home">Home</string>
     <string name="title_permission">Permission</string>
     <string name="title_storage_inter">Storage Inter</string>
     <string name="title_storage_exter">Storage Exter</string>
+    <string name="title_storage_share">Storage Share</string>
     <string name="title_notifications">Notifications</string>
 
 

@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.ulling.androidexsample.R
 import com.ulling.androidexsample.base.BaseFragment
 import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListener
+import com.ulling.androidexsample.utils.ExtStorageUtils
 import com.ulling.lib.core.utils.QcLog
+import com.ulling.lib.core.utils.QcToast
 import kotlinx.android.synthetic.main.fragment_storage_share.*
 import java.io.File
 import kotlin.random.Random
@@ -47,7 +49,15 @@ class StorageShareFragment : BaseFragment(R.layout.fragment_storage_share) {
         storageViewModel.text.observe(viewLifecycleOwner, Observer {
             text_title.text = it
         })
-        text_title.text = "내부 저장소 테스트"
+
+        btn_permission_share.setOnHasTermClickListener {
+            QcLog.e("btn_permission_share === ")
+            val isExternalStorageWritable = ExtStorageUtils(mCtx).isExternalStorageWritable()
+            val isExternalStorageReadable = ExtStorageUtils(mCtx).isExternalStorageReadable()
+            QcToast.getInstance()
+                .show("쓰기 가능 : $isExternalStorageWritable, 읽기 가능 : $isExternalStorageReadable")
+        }
+
 
         btn_share_makeFile.setOnHasTermClickListener {
             QcLog.e("btn_share_makeFile === ")
@@ -67,7 +77,7 @@ class StorageShareFragment : BaseFragment(R.layout.fragment_storage_share) {
 
         btn_share_saveFile.setOnHasTermClickListener {
             QcLog.e("btn_share_saveFile === ")
-            fileContents = fileName +"\n" +edt_share_saveFile.text.toString()
+            fileContents = fileName + "\n" + edt_share_saveFile.text.toString()
             saveFile(fileName, fileContents)
         }
 
@@ -99,7 +109,7 @@ class StorageShareFragment : BaseFragment(R.layout.fragment_storage_share) {
     /**
      * 중첩된 디렉터리 만들기
      */
-    fun createInnerDir(dirname:String) {
+    fun createInnerDir(dirname: String) {
         val result = mCtx.getDir(dirname, Context.MODE_PRIVATE)
         QcLog.e("createInnerDir ===== " + result)
     }
@@ -110,7 +120,7 @@ class StorageShareFragment : BaseFragment(R.layout.fragment_storage_share) {
         text_share_makeFile.text = file.toString()
     }
 
-    private fun saveFile(fileName :String, contents:String) {
+    private fun saveFile(fileName: String, contents: String) {
         mCtx.openFileOutput(fileName, Context.MODE_PRIVATE).use {
 //            it?.write(fileContents.toByteArray())
             it?.write(contents.toByteArray())
@@ -183,13 +193,6 @@ class StorageShareFragment : BaseFragment(R.layout.fragment_storage_share) {
         }
         return true
     }
-
-
-
-
-
-
-
 
 
     // 캐시 파일 만들기

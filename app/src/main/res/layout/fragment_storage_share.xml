@@ -24,6 +24,13 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             tools:text="test" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_permission_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:text="읽기 쓰기 권한" />
     </LinearLayout>
 
     <ScrollView

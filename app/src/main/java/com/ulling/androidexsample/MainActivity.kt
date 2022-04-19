@@ -5,14 +5,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ulling.androidexsample.base.BaseActivity
-import com.ulling.lib.core.utils.QcLog
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun init() {
-        QcLog.e("init ======== ")
-
         val navController = findNavController(nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -20,15 +17,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 R.id.navigation_permission,
                 R.id.navigation_storage_inter,
                 R.id.navigation_storage_exter,
-                R.id.navigation_notifications
+                R.id.navigation_storage_share,
+//                R.id.navigation_notifications
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
     }
-
-//    override fun onBackStackChanged() {
-//        QcLog.e("onBackStackChanged ======== ")
-//        onBackPressed()
-//    }
 }
