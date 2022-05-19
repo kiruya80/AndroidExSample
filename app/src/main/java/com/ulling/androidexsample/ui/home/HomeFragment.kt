@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ulling.androidexsample.MainSubActivity
+import androidx.navigation.fragment.findNavController
 import com.ulling.androidexsample.R
 import com.ulling.androidexsample.SubActivity
 import com.ulling.androidexsample.base.BaseFragment
@@ -44,6 +45,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             text_home.text = it
         })
 
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_move_permission)
+        }
+
         btn_move_main_sub.setOnHasTermClickListener {
             QcLog.e("btn_move_main_sub === ")
             actResultStartActivity.launch(
@@ -62,7 +67,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     "send"
                 )
             )
-
         }
     }
 

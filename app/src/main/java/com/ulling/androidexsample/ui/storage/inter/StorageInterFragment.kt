@@ -4,12 +4,15 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ulling.androidexsample.R
 import com.ulling.androidexsample.base.BaseFragment
 import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListener
 import com.ulling.androidexsample.utils.InterStorageUtils
 import com.ulling.lib.core.utils.QcLog
+import kotlinx.android.synthetic.main.fragment_permission.*
 import kotlinx.android.synthetic.main.fragment_storage_inter.*
+import kotlinx.android.synthetic.main.fragment_storage_inter.fab
 import kotlin.random.Random
 
 /**
@@ -47,6 +50,9 @@ class StorageInterFragment : BaseFragment(R.layout.fragment_storage_inter) {
             text_title.text = it
         })
 
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_move_storage_exter)
+        }
         btn_in_make_dir.setOnHasTermClickListener {
             QcLog.e("btn_in_make_dir === ")
             fileDir =

@@ -6,16 +6,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-
-    <!-- WEB RTC 관련 -->
+        tools:ignore="ScopedStorage" /> <!-- WEB RTC 관련 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
@@ -33,30 +30,42 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AndroidExSample">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            tools:ignore="Instantiatable">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.AndroidExSample.NoActionBar">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".MainSubActivity"
             android:exported="true"
             android:label="@string/app_name"
-            tools:ignore="Instantiatable"/>
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".PrintActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            tools:ignore="Instantiatable" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".SubActivity"
             android:exported="true"
             android:label="@string/app_name"
-            tools:ignore="Instantiatable"/>
-
-        <!-- 이미지 업로드 -->
+            tools:ignore="Instantiatable" /> <!-- 이미지 업로드 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.ulling.androidexsample.fileprovider"
@@ -66,7 +75,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

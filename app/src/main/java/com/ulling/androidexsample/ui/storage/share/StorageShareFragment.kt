@@ -5,13 +5,17 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ulling.androidexsample.R
 import com.ulling.androidexsample.base.BaseFragment
 import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListener
 import com.ulling.androidexsample.utils.ExtStorageUtils
 import com.ulling.lib.core.utils.QcLog
 import com.ulling.lib.core.utils.QcToast
+import kotlinx.android.synthetic.main.fragment_storage_exter.*
 import kotlinx.android.synthetic.main.fragment_storage_share.*
+import kotlinx.android.synthetic.main.fragment_storage_share.fab
+import kotlinx.android.synthetic.main.fragment_storage_share.text_title
 import java.io.File
 import kotlin.random.Random
 
@@ -50,6 +54,9 @@ class StorageShareFragment : BaseFragment(R.layout.fragment_storage_share) {
             text_title.text = it
         })
 
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_move_home)
+        }
         btn_permission_share.setOnHasTermClickListener {
             QcLog.e("btn_permission_share === ")
             val isExternalStorageWritable = ExtStorageUtils(mCtx).isExternalStorageWritable()

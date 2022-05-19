@@ -12,6 +12,7 @@ import com.ulling.lib.core.utils.QcLog
 import kotlinx.android.synthetic.main.fragment_permission.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.fragment.findNavController
 import com.ulling.androidexsample.QUllingApplication
 
 import com.ulling.androidexsample.common.permissionList
@@ -24,6 +25,8 @@ import com.ulling.androidexsample.utils.PermissionUtils.Companion.isReadWritePer
 import com.ulling.androidexsample.utils.PermissionUtils.Companion.showDialogToGetPermission
 import com.ulling.lib.core.utils.QcDialogUtils
 import com.ulling.lib.core.utils.QcToast
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_permission.fab
 
 
 /**
@@ -65,6 +68,9 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission) {
             text_permission.text = it
         })
 
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_move_storage_inter)
+        }
         btn_permission_camera.setOnHasTermClickListener {
             QcLog.e("btn_permission_camera === ")
             //단일 권한을 요청하려면 RequestPermission을 사용합니다.

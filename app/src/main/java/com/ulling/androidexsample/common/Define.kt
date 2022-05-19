@@ -1,10 +1,33 @@
 package com.ulling.androidexsample.common
 
 import android.Manifest
+import com.ulling.androidexsample.BuildConfig
 
 class Define {
 
     companion object {
+        /**
+         * 상용/ 테스트용
+         */
+        val DEBUG_FLAG = BuildConfig.DEBUG
+
+        const val PAGE_SIZE = 20
+
+        const val HTTP_READ_TIMEOUT = 5000
+        const val HTTP_CONNECT_TIMEOUT = 4000
+
+        /**
+         * TimeOut
+         */
+        const val INTRO_TIMEOUT = 1500
+
+        /**
+         * time format
+         */
+        const val dateFormatFrom_sss = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        const val dateFormatFrom_ss = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        const val displayDateFormatFrom = "MM.dd aa hh:mm:ss"
+        const val yyyyMMddFormatFrom = "yyyy MM.dd"
 
     }
 }

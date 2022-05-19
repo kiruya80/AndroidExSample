@@ -2,6 +2,7 @@ package com.ulling.androidexsample.ui.storage.exter
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ulling.androidexsample.R
 import com.ulling.androidexsample.base.BaseFragment
 import com.ulling.androidexsample.component.clieckevent.setOnHasTermClickListener
@@ -9,7 +10,9 @@ import com.ulling.androidexsample.utils.ExtStorageUtils
 import com.ulling.lib.core.utils.QcLog
 import com.ulling.lib.core.utils.QcToast
 import kotlinx.android.synthetic.main.fragment_storage_exter.*
+import kotlinx.android.synthetic.main.fragment_storage_exter.fab
 import kotlinx.android.synthetic.main.fragment_storage_exter.text_title
+import kotlinx.android.synthetic.main.fragment_storage_inter.*
 import kotlin.random.Random
 
 /**
@@ -47,6 +50,9 @@ class StorageExterFragment : BaseFragment(R.layout.fragment_storage_exter) {
             text_title.text = it
         })
 
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_move_storage_share)
+        }
         btn_permission_exter.setOnHasTermClickListener {
             QcLog.e("btn_permission_exter === ")
             val isExternalStorageWritable = ExtStorageUtils(mCtx).isExternalStorageWritable()

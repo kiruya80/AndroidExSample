@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_home">
+
+<!--    <fragment-->
+<!--        android:id="@+id/FirstFragment"-->
+<!--        android:name="com.ulling.androidexsample.FirstFragment"-->
+<!--        android:label="@string/first_fragment_label"-->
+<!--        tools:layout="@layout/fragment_first">-->
+
+<!--        <action-->
+<!--            android:id="@+id/action_FirstFragment_to_SecondFragment"-->
+<!--            app:destination="@id/SecondFragment" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/SecondFragment"-->
+<!--        android:name="com.ulling.androidexsample.SecondFragment"-->
+<!--        android:label="@string/second_fragment_label"-->
+<!--        tools:layout="@layout/fragment_second">-->
+
+<!--        <action-->
+<!--            android:id="@+id/action_SecondFragment_to_FirstFragment"-->
+<!--            app:destination="@id/FirstFragment" />-->
+<!--    </fragment>-->
+
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.ulling.androidexsample.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+
+        <action
+            android:id="@+id/action_move_permission"
+            app:destination="@id/navigation_permission" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_permission"
+        android:name="com.ulling.androidexsample.ui.permission.PermissionFragment"
+        android:label="@string/title_permission"
+        tools:layout="@layout/fragment_permission" >
+
+        <action
+            android:id="@+id/action_move_storage_inter"
+            app:destination="@id/navigation_storage_inter" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_storage_inter"
+        android:name="com.ulling.androidexsample.ui.storage.inter.StorageInterFragment"
+        android:label="@string/title_storage"
+        tools:layout="@layout/fragment_storage_inter" >
+
+        <action
+            android:id="@+id/action_move_storage_exter"
+            app:destination="@id/navigation_storage_exter" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_storage_exter"
+        android:name="com.ulling.androidexsample.ui.storage.exter.StorageExterFragment"
+        android:label="@string/title_storage"
+        tools:layout="@layout/fragment_storage_exter" >
+
+        <action
+            android:id="@+id/action_move_storage_share"
+            app:destination="@id/navigation_storage_share" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_storage_share"
+        android:name="com.ulling.androidexsample.ui.storage.share.StorageShareFragment"
+        android:label="@string/title_storage"
+        tools:layout="@layout/fragment_storage_share" >
+
+        <action
+            android:id="@+id/action_move_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
+</navigation>
